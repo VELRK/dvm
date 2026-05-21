@@ -1,0 +1,42 @@
+RewriteEngine On
+
+# Production SEO: single canonical host — 301 from apex to www (does not match localhost)
+# https://dreamvillamakers.com/* → https://www.dreamvillamakers.com/*
+RewriteCond %{HTTP_HOST} ^dreamvillamakers\.com$ [NC]
+RewriteRule ^ https://www.dreamvillamakers.com%{REQUEST_URI} [R=301,L]
+
+# Must match the URL path where this app lives (e.g. http://localhost:8080/dvm/)
+
+
+# Compress text responses (HTML, CSS, JS, JSON). Lowers transfer size / "document latency" vs raw gzip off.
+# Do not also enable CodeIgniter $config['compress_output'] — pick one layer only.
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css
+    AddOutputFilterByType DEFLATE application/javascript application/x-javascript text/javascript
+    AddOutputFilterByType DEFLATE application/json application/xml image/svg+xml
+</IfModule>
+
+# Long cache for static assets (Lighthouse: efficient cache policy). Real files bypass CI front controller.
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
+    ExpiresByType text/css "access plus 30 days"
+    ExpiresByType application/javascript "access plus 30 days"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+</IfModule>
+<IfModule mod_headers.c>
+    <FilesMatch "\.(css|js|mjs|woff2?|png|jpe?g|gif|svg|ico|webp)$">
+        Header set Cache-Control "public, max-age=2592000"
+    </FilesMatch>
+</IfModule>
+
+# CodeIgniter URL rewriting
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php/$1 [L]
