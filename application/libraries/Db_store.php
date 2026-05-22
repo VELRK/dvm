@@ -475,7 +475,10 @@ class Db_store {
             'created_at' => $this->property_value($row, array('created_at', 'createdAt'), ''),
             'locationInfo' => array('locationName' => $locationName),
             'cityInfo' => array('cityName' => $cityName),
-            'categoryInfo' => array('categoryName' => $categoryName)
+            'categoryInfo' => array('categoryName' => $categoryName),
+            'meta_title' => $this->property_value($row, array('meta_title'), ''),
+            'meta_description' => $this->property_value($row, array('meta_description'), ''),
+            'meta_keywords' => $this->property_value($row, array('meta_keywords'), ''),
         );
         
         // Handle amenities/propertiesDetails
