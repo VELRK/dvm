@@ -1,0 +1,56 @@
+name: Deploy to Hostinger
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: SSH Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Setup SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+          if_key_exists: replace
+
+      - name: Deploy via rsync over SSH
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_USERNAME }}
+          REMOTE_PORT: ${{ secrets.SSH_PORT }}
+          SOURCE: "./"
+          TARGET: ${{ secrets.SSH_TARGET_DIR }}
+          EXCLUDE: >
+            /.git/,
+            /.github/,
+            /old/,
+            /uploads/,
+            /application/logs/,
+            /application/cache/,
+            /application/config/database.php,
+            /application/config/firebase_service_account.json,
+            /.DS_Store,
+            /node_modules/,
+            /nbproject/,
+            /.idea/
+          ARGS: "-rlgoDzvc --delete"
+
+      - name: Notify on success
+        if: success()
+        run: echo "Deployment to Hostinger completed successfully!"
+
+      - name: Notify on failure
+        if: failure()
+        run: echo "Deployment failed! Check the logs above."

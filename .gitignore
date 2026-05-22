@@ -35,5 +35,11 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 **/config/database.php
 **/config/firebase_service_account.json
 
+# CI/CD
+.ftp-deploy-sync-state.json
+.rsync-exclude
+
 # Large files that exceed GitHub's 100MB limit
 *.zip
+uploads/
+.htaccess
