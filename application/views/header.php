@@ -132,6 +132,80 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-KTGKKRBH');</script>
 <!-- End Google Tag Manager -->
+
+<?php
+// ── JSON-LD Structured Data ────────────────────────────────────────────────
+$_isHome      = ($uriStr === '' || $uriStr === 'home' || (isset($page) && $page === 'home'));
+$_isAbout     = ($uriStr === 'about');
+$_isContact   = ($uriStr === 'contact');
+$_isProjects  = ($uriStr === 'our-projects');
+$_isBlog      = ($uriStr === 'blog');
+$_isPropDetail= (isset($page) && $page === 'property_detail' && isset($property) && !empty($property));
+
+if ($_isHome):
+?>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"Dream Villa Makers","url":"https://dreamvillamakers.com/","logo":"https://dreamvillamakers.com/assets/images/logo/logo@2x.webp","sameAs":["https://www.facebook.com/Dreamvillamakers","https://www.instagram.com/dreamvillamakers","https://www.youtube.com/@DreamVillaMakers"]}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"LocalBusiness","name":"Dream Villa Makers","image":"https://dreamvillamakers.com/assets/images/logo/logo@2x.webp","@id":"https://dreamvillamakers.com/","url":"https://dreamvillamakers.com/","telephone":"+918988982030","geo":{"@type":"GeoCoordinates","latitude":"11.143049668245622","longitude":"77.04092213991989"},"address":{"@type":"PostalAddress","streetAddress":"Site No: 268, Royal Castle, Karuvalur Road, Kovilpalayam","addressLocality":"Coimbatore","addressRegion":"Tamil Nadu","postalCode":"641107","addressCountry":"IN"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","url":"https://dreamvillamakers.com/","name":"Dream Villa Makers","potentialAction":{"@type":"SearchAction","target":"https://dreamvillamakers.com/?s={search_term_string}","query-input":"required name=search_term_string"}}
+</script>
+<?php elseif ($_isAbout): ?>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"AboutPage","name":"About Dream Villa Makers - Real Estate Developers in Coimbatore","url":"https://www.dreamvillamakers.com/about","description":"Dream Villa Makers is a trusted real estate developer offering premium villa and plot projects in and around Coimbatore.","mainEntity":{"@type":"Organization","name":"Dream Villa Makers","url":"https://www.dreamvillamakers.com","logo":"https://www.dreamvillamakers.com/assets/images/logo/logo@2x.webp","description":"Premium villa and layout developers in Coimbatore and nearby areas.","address":{"@type":"PostalAddress","addressLocality":"Coimbatore","addressRegion":"Tamil Nadu","addressCountry":"IN"},"telephone":"+91 8988982030","email":"info@dreamvillamakers.com","sameAs":["https://www.facebook.com/dreamvillamakers","https://www.instagram.com/dreamvillamakers","https://www.youtube.com/@dreamvillamakers"]}}
+</script>
+<?php elseif ($_isContact): ?>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"LocalBusiness","name":"Dream Villa Makers","image":"https://dreamvillamakers.com/assets/images/logo/logo@2x.webp","@id":"https://dreamvillamakers.com/","url":"https://dreamvillamakers.com/","telephone":"+918988982030","address":{"@type":"PostalAddress","streetAddress":"Site No: 268, Royal Castle, Karuvalur Road, Kovilpalayam","addressLocality":"Coimbatore","addressRegion":"Tamil Nadu","postalCode":"641107","addressCountry":"IN"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://dreamvillamakers.com/"},{"@type":"ListItem","position":2,"name":"Contact","item":"https://www.dreamvillamakers.com/contact"}]}
+</script>
+<?php elseif ($_isProjects): ?>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"CollectionPage","name":"Our Projects - Dream Villa Makers","url":"https://www.dreamvillamakers.com/our-projects","description":"Discover premium villa and layout projects by Dream Villa Makers in and around Coimbatore.","breadcrumb":{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dreamvillamakers.com"},{"@type":"ListItem","position":2,"name":"Our Projects","item":"https://www.dreamvillamakers.com/our-projects"}]}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"LocalBusiness","name":"Dream Villa Makers","image":"https://dreamvillamakers.com/assets/images/logo/logo@2x.webp","@id":"https://dreamvillamakers.com/","url":"https://dreamvillamakers.com/","telephone":"+918988982030","address":{"@type":"PostalAddress","streetAddress":"Site No: 268, Royal Castle, Karuvalur Road, Kovilpalayam","addressLocality":"Coimbatore","addressRegion":"Tamil Nadu","postalCode":"641107","addressCountry":"IN"}}
+</script>
+<?php elseif ($_isBlog): ?>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Blog","name":"Dream Villa Makers Blog","url":"https://www.dreamvillamakers.com/blog","description":"Latest news, updates, and insights on real estate projects and lifestyle living in and around Coimbatore.","publisher":{"@type":"Organization","name":"Dream Villa Makers","url":"https://www.dreamvillamakers.com","logo":"https://www.dreamvillamakers.com/assets/images/logo/logo@2x.webp"}}
+</script>
+<?php elseif ($_isPropDetail):
+    $_pName  = addslashes($property['propertyName'] ?? '');
+    $_pUrl   = htmlspecialchars(current_url(), ENT_QUOTES, 'UTF-8');
+    $_pImg   = '';
+    if (!empty($property['propertiesMainImage'])) {
+        $_pImg = strpos($property['propertiesMainImage'], 'http') === 0
+            ? $property['propertiesMainImage']
+            : 'https://www.dreamvillamakers.com/' . ltrim($property['propertiesMainImage'], '/');
+    }
+    $_pDesc  = addslashes(mb_substr(strip_tags($property['description'] ?? ''), 0, 200));
+    $_pPrice = isset($property['propertyPriceRange']) ? (float)$property['propertyPriceRange'] : 0;
+?>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "RealEstateListing",
+  "name": "<?php echo $_pName; ?>",
+  "url": "<?php echo $_pUrl; ?>",
+  <?php if (!empty($_pImg)): ?>"image": "<?php echo htmlspecialchars($_pImg, ENT_QUOTES, 'UTF-8'); ?>",<?php endif; ?>
+  "description": "<?php echo $_pDesc; ?>",
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "INR"<?php if ($_pPrice > 0): ?>,
+    "price": "<?php echo number_format($_pPrice, 0, '.', ''); ?>"<?php endif; ?>
+  }
+}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.dreamvillamakers.com"},{"@type":"ListItem","position":2,"name":"Our Projects","item":"https://www.dreamvillamakers.com/our-projects"},{"@type":"ListItem","position":3,"name":"<?php echo $_pName; ?>","item":"<?php echo $_pUrl; ?>"}]}
+</script>
+<?php endif; ?>
 </head>
 
 <body>
