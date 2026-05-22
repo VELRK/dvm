@@ -468,6 +468,41 @@
                     </div>
                 </div>
 
+                <div class="card mb-4 border-primary">
+                    <div class="card-header bg-primary text-white">
+                        <i class="fas fa-search me-2"></i>SEO Settings
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Meta Title <small class="text-muted">(max 70 chars)</small></label>
+                            <input type="text" class="form-control seo-meta-title" name="meta_title"
+                                value="<?php echo htmlspecialchars($property->meta_title ?? '', ENT_QUOTES, 'UTF-8'); ?>"
+                                maxlength="70" placeholder="e.g. urban nest plots in Coimbatore | Dream Villa Makers">
+                            <div class="d-flex justify-content-between mt-1">
+                                <small class="text-muted">Recommended: 50–70 characters</small>
+                                <small class="seo-count text-muted"><span>0</span>/70</small>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Meta Description <small class="text-muted">(max 170 chars)</small></label>
+                            <textarea class="form-control seo-meta-desc" name="meta_description"
+                                rows="2" maxlength="170"
+                                placeholder="e.g. Explore plots with clear titles, good access, and peaceful setting ideal for your future home"><?php echo htmlspecialchars($property->meta_description ?? '', ENT_QUOTES, 'UTF-8'); ?></textarea>
+                            <div class="d-flex justify-content-between mt-1">
+                                <small class="text-muted">Recommended: 150–170 characters</small>
+                                <small class="seo-count text-muted"><span>0</span>/170</small>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Meta Keywords</label>
+                            <input type="text" class="form-control" name="meta_keywords"
+                                value="<?php echo htmlspecialchars($property->meta_keywords ?? '', ENT_QUOTES, 'UTF-8'); ?>"
+                                placeholder="keyword1, keyword2, keyword3">
+                            <small class="text-muted">Comma-separated keywords</small>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="d-flex gap-2">
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-save me-2"></i>Update Property
@@ -476,6 +511,16 @@
                         <i class="fas fa-times me-2"></i>Cancel
                     </a>
                 </div>
+
+                <script>
+                document.querySelectorAll('.seo-meta-title, .seo-meta-desc').forEach(function(el) {
+                    var max = parseInt(el.getAttribute('maxlength'));
+                    var counter = el.closest('.mb-3').querySelector('.seo-count span');
+                    function update() { counter.textContent = el.value.length; }
+                    el.addEventListener('input', update);
+                    update();
+                });
+                </script>
             </form>
         </div>
     </div>

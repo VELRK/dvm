@@ -34,9 +34,20 @@ class Property_detail extends CI_Controller {
             if ($propertyResult['success'] && isset($propertyResult['property'])) {
                 $data['property'] = $propertyResult['property'];
                 $propName = isset($data['property']['propertyName']) ? $data['property']['propertyName'] : 'Property Details';
-                $data['title'] = $propName . ' | Dream Villa Makers';
-                $desc = isset($data['property']['description']) ? strip_tags($data['property']['description']) : '';
-                $data['meta_description'] = $desc ? mb_substr($desc, 0, 160) : 'View details for ' . $propName . ' — location, price, features and more at Dream Villa Makers.';
+
+                // Use custom SEO fields if set, otherwise fall back to auto-generated values
+                $data['title'] = !empty($data['property']['meta_title'])
+                    ? $data['property']['meta_title']
+                    : $propName . ' | Dream Villa Makers';
+
+                if (!empty($data['property']['meta_description'])) {
+                    $data['meta_description'] = $data['property']['meta_description'];
+                } else {
+                    $desc = isset($data['property']['description']) ? strip_tags($data['property']['description']) : '';
+                    $data['meta_description'] = $desc ? mb_substr($desc, 0, 160) : 'View details for ' . $propName . ' — location, price, features and more at Dream Villa Makers.';
+                }
+
+                $data['meta_keywords'] = !empty($data['property']['meta_keywords']) ? $data['property']['meta_keywords'] : '';
 
                 // Redirect numeric ID URLs to slug URLs for SEO
                 if ($accessedById && !empty($data['property']['slug'])) {

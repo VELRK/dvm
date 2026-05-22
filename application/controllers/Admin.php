@@ -110,12 +110,15 @@ class Admin extends CI_Controller {
                 'type' => $this->input->post('type'),
                 'status' => $this->input->post('status') ?: 'active',
                 'is_latest' => $this->input->post('is_latest') ? 1 : 0,
-                'is_featured' => $this->input->post('is_featured') ? 1 : 0
+                'is_featured' => $this->input->post('is_featured') ? 1 : 0,
+                'meta_title' => $this->input->post('meta_title') ?: null,
+                'meta_description' => $this->input->post('meta_description') ?: null,
+                'meta_keywords' => $this->input->post('meta_keywords') ?: null,
             );
 
             // Handle gallery upload - Multiple images
             $gallery_files = array();
-            
+
             // Keep existing gallery images if editing
             $existing_gallery = $this->input->post('existing_gallery');
             if ($existing_gallery && is_array($existing_gallery)) {
@@ -339,7 +342,10 @@ class Admin extends CI_Controller {
                 'type' => $this->input->post('type'),
                 'status' => $this->input->post('status') ?: 'active',
                 'is_latest' => $this->input->post('is_latest') ? 1 : 0,
-                'is_featured' => $this->input->post('is_featured') ? 1 : 0
+                'is_featured' => $this->input->post('is_featured') ? 1 : 0,
+                'meta_title' => $this->input->post('meta_title') ?: null,
+                'meta_description' => $this->input->post('meta_description') ?: null,
+                'meta_keywords' => $this->input->post('meta_keywords') ?: null,
             );
 
             // Handle gallery upload - Multiple images (Edit mode)
