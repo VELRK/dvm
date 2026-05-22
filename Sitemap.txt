@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url>
+    <loc>https://www.dreamvillamakers.com/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://www.dreamvillamakers.com/about</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.dreamvillamakers.com/our-projects</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://www.dreamvillamakers.com/blog</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://www.dreamvillamakers.com/contact</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.dreamvillamakers.com/plots-in-coimbatore/urban-nest-narasimhanaickenpalayam</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.dreamvillamakers.com/plots-in-coimbatore/supreme-happy-nest-kunnathur</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.dreamvillamakers.com/plots-in-coimbatore/supreme-garden-phase-ponnegounden-pudur</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.dreamvillamakers.com/plots-in-coimbatore/royal-village-ponnegounden-pudur</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.dreamvillamakers.com/plots-in-coimbatore/indra-nagar-kunnathur</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.dreamvillamakers.com/plots-in-coimbatore/velan-dream-city-annur</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.dreamvillamakers.com/plots-in-coimbatore/vetrivel-avenue-kovilpalayam</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.dreamvillamakers.com/plots-in-coimbatore/gem-field-kovilpalayam</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.dreamvillamakers.com/plots-in-coimbatore/vinayaka-garden-kunnathur</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.dreamvillamakers.com/plots-in-coimbatore/subiksham-grande-kurumbapalayam</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.dreamvillamakers.com/plots-in-coimbatore/grand-town-thennampalayam</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.dreamvillamakers.com/plots-in-coimbatore/royal-castle-kovilpalayam</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.dreamvillamakers.com/plots-in-coimbatore/aishwaryam-grande-ganeshpuram</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.dreamvillamakers.com/plots-in-coimbatore/olympus-garden-annur</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.dreamvillamakers.com/plots-in-coimbatore/royal-gateway-kariyampalayam</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://www.dreamvillamakers.com/blog/why-coimbatore-is-indias-best-retirement-destination</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.dreamvillamakers.com/blog/the-future-of-artificial-intelligence-in-everyday-life</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://www.dreamvillamakers.com/blog/why-coimbatore-is-the-best-city-for-real-estate-investment-in-2026</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.dreamvillamakers.com/blog/top-emerging-real-estate-areas-in-coimbatore-for-property-investment</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.dreamvillamakers.com/blog/why-investing-in-plots-in-coimbatore-is-a-smart-choice</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.dreamvillamakers.com/blog/how-to-choose-the-perfect-home-location</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://www.dreamvillamakers.com/blog/top-10-real-estate-investment-tips-for-2026</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+</urlset>
