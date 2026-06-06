@@ -43,6 +43,15 @@ class Blog extends CI_Controller {
         $this->load->view('footer', $data);
     }
     
+/**
+ * CHANGE LOG (2026-06)
+ * slug() and post() now set three additional $data keys passed to header.php:
+ *   $data['title']            – uses meta_title if set, falls back to blog title
+ *   $data['meta_description'] – uses meta_description if set, falls back to shortDescription
+ *   $data['meta_keywords']    – uses meta_keywords if set, otherwise empty string
+ * These feed directly into the <title>, <meta name="description">, and
+ * <meta name="keywords"> tags rendered in application/views/header.php.
+ */
 public function slug($slug = '')
 {
     if (!$slug) {

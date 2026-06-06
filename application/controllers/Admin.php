@@ -1369,7 +1369,21 @@ class Admin extends CI_Controller {
         redirect('admin/categories');
     }
 
-    // Blog Management
+    // ==================== BLOG MANAGEMENT ====================
+    // CHANGE LOG (2026-06)
+    // - blog_create() / blog_edit() now handle 6 additional SEO + FAQ fields:
+    //     url_slug        : editable URL slug (auto-generated from title if blank, unique-enforced)
+    //     meta_title      : per-blog <title> tag (max 70 chars, falls back to blog title)
+    //     meta_description: per-blog <meta name="description"> (max 160 chars)
+    //     meta_keywords   : per-blog <meta name="keywords"> (comma-separated)
+    //     cover_image_alt : alt text for the cover/featured image
+    //     faq_data        : JSON array of {question, answer} pairs powering the FAQ section
+    //       and FAQPage JSON-LD schema on the frontend
+    // - 'short_notes' field removed from both admin forms (field still exists in DB
+    //   for backward compatibility but is no longer displayed or written)
+    // - Admin forms now use TinyMCE 6 (CDN) as the rich-text editor for 'description'
+    // - DB columns are auto-added on first page load via Db_store constructor migrations
+
     public function blogs()
     {
         $this->check_login();

@@ -1463,6 +1463,22 @@ class Db_store {
         return array('success' => true, 'blogs' => $mapped, 'total' => (int)$total);
     }
 
+    /**
+     * CHANGE LOG (2026-06) — map_blog()
+     * Three new fields added to the returned array (columns auto-created via constructor):
+     *   'meta_keywords'   (TEXT)    – comma-separated SEO keywords set per blog in admin
+     *   'cover_image_alt' (VARCHAR) – alt text for the cover image; frontend falls back to title
+     *   'faq_data'        (LONGTEXT)– JSON: [{"question":"...","answer":"..."}]
+     *                                 Decoded in blog/post.php to render FAQ accordion
+     *                                 and FAQPage JSON-LD schema for Google rich results.
+     *                                 Empty/null value renders as '[]' (safe default).
+     *
+     * Constructor auto-migrations (same session, no manual SQL needed):
+     *   ALTER TABLE blogs ADD COLUMN meta_keywords TEXT NULL
+     *   ALTER TABLE blogs ADD COLUMN cover_image_alt VARCHAR(255) NULL
+     *   ALTER TABLE blogs ADD COLUMN faq_data LONGTEXT NULL
+     *   (+ meta_title, meta_description if not already present)
+     */
     private function map_blog($row) {
         // New schema: blogs table has name, description, short_notes, gallery, author, date, slug
         $name = $this->property_value($row, array('name', 'title'), '');
