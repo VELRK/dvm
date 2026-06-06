@@ -1384,13 +1384,28 @@ class Admin extends CI_Controller {
         $this->check_login();
         
         if ($this->input->post()) {
+            $this->load->helper('url');
+            $name = $this->input->post('name');
+            $rawSlug = $this->input->post('url_slug');
+            $slug = !empty($rawSlug) ? url_title($rawSlug, '-', TRUE) : url_title($name, '-', TRUE);
+            // Ensure slug uniqueness on create
+            $baseSlug = $slug;
+            $i = 1;
+            while ($this->db->where('slug', $slug)->count_all_results('blogs') > 0) {
+                $slug = $baseSlug . '-' . $i++;
+            }
             $data = array(
-                'name' => $this->input->post('name'),
+                'name' => $name,
                 'description' => $this->input->post('description'),
-                'short_notes' => $this->input->post('short_notes'),
+                'slug' => $slug,
                 'author' => $this->input->post('author'),
                 'date' => $this->input->post('date') ?: date('Y-m-d'),
-                'status' => $this->input->post('status') ?: 'active'
+                'status' => $this->input->post('status') ?: 'active',
+                'meta_title' => $this->input->post('meta_title') ?: '',
+                'meta_description' => $this->input->post('meta_description') ?: '',
+                'meta_keywords' => $this->input->post('meta_keywords') ?: '',
+                'cover_image_alt' => $this->input->post('cover_image_alt') ?: '',
+                'faq_data' => $this->input->post('faq_data') ?: '[]',
             );
 
             // Handle gallery upload - Multiple images
@@ -1453,13 +1468,32 @@ class Admin extends CI_Controller {
         }
 
         if ($this->input->post()) {
+            $this->load->helper('url');
+            $name = $this->input->post('name');
+            $rawSlug = $this->input->post('url_slug');
+            $newSlug = !empty($rawSlug) ? url_title($rawSlug, '-', TRUE) : '';
+            // Only update slug if explicitly provided or changed
+            if (empty($newSlug)) {
+                $newSlug = !empty($data['blog']->slug) ? $data['blog']->slug : url_title($name, '-', TRUE);
+            }
+            // Ensure slug uniqueness (excluding current blog)
+            $baseSlug = $newSlug;
+            $i = 1;
+            while ($this->db->where('slug', $newSlug)->where('id !=', $id)->count_all_results('blogs') > 0) {
+                $newSlug = $baseSlug . '-' . $i++;
+            }
             $update_data = array(
-                'name' => $this->input->post('name'),
+                'name' => $name,
                 'description' => $this->input->post('description'),
-                'short_notes' => $this->input->post('short_notes'),
+                'slug' => $newSlug,
                 'author' => $this->input->post('author'),
                 'date' => $this->input->post('date') ?: date('Y-m-d'),
-                'status' => $this->input->post('status') ?: 'active'
+                'status' => $this->input->post('status') ?: 'active',
+                'meta_title' => $this->input->post('meta_title') ?: '',
+                'meta_description' => $this->input->post('meta_description') ?: '',
+                'meta_keywords' => $this->input->post('meta_keywords') ?: '',
+                'cover_image_alt' => $this->input->post('cover_image_alt') ?: '',
+                'faq_data' => $this->input->post('faq_data') ?: '[]',
             );
 
             // Handle gallery upload - Multiple images (Edit mode)

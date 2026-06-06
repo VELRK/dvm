@@ -8,7 +8,44 @@ if ($rawAuthor === '' && isset($post['author'])) {
 $showAuthor = ($rawAuthor !== '' && strcasecmp($rawAuthor, 'Admin') !== 0);
 $category = isset($post['category']) ? trim((string) $post['category']) : '';
 $published = !empty($post['publishedDate']) ? date('F j, Y', strtotime($post['publishedDate'])) : '';
+
+// FAQ data
+$faqItems = array();
+if (!empty($post['faq_data'])) {
+    $decoded = json_decode($post['faq_data'], true);
+    if (is_array($decoded)) {
+        foreach ($decoded as $item) {
+            if (!empty($item['question']) && !empty($item['answer'])) {
+                $faqItems[] = $item;
+            }
+        }
+    }
+}
+
+// Cover image alt text
+$coverAlt = !empty($post['cover_image_alt']) ? $post['cover_image_alt'] : $post['title'];
 ?>
+
+<?php if (!empty($faqItems)): ?>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    <?php foreach ($faqItems as $i => $faq): ?>
+    {
+      "@type": "Question",
+      "name": <?php echo json_encode(strip_tags($faq['question'])); ?>,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": <?php echo json_encode(strip_tags($faq['answer'])); ?>
+      }
+    }<?php echo ($i < count($faqItems) - 1) ? ',' : ''; ?>
+    <?php endforeach; ?>
+  ]
+}
+</script>
+<?php endif; ?>
 
 <section class="flat-title-page flat-title-page--blog blog-single-hero">
     <div class="container">
@@ -54,10 +91,6 @@ $published = !empty($post['publishedDate']) ? date('F j, Y', strtotime($post['pu
                         <?php endif; ?>
                     </div>
 
-                    <?php if (!empty($post['shortDescription'])): ?>
-                    <p class="blog-lead mb-0"><?php echo strip_tags($post['shortDescription'], '<br><strong><em><b><i>'); ?></p>
-                    <?php endif; ?>
-
                     <?php
                     $coverImage = !empty($post['coverImageUrl']) ? $post['coverImageUrl'] : '';
                     if (!empty($coverImage) && !preg_match('/^https?:\/\//', $coverImage)) {
@@ -68,7 +101,7 @@ $published = !empty($post['publishedDate']) ? date('F j, Y', strtotime($post['pu
                     <div class="blog-featured-wrap">
                         <img class="lazyload" data-src="<?php echo htmlspecialchars($coverImage); ?>"
                             src="<?php echo htmlspecialchars($coverImage); ?>"
-                            alt="<?php echo htmlspecialchars($post['title']); ?>"
+                            alt="<?php echo htmlspecialchars($coverAlt); ?>"
                             itemprop="image">
                     </div>
                     <?php endif; ?>
@@ -90,9 +123,44 @@ $published = !empty($post['publishedDate']) ? date('F j, Y', strtotime($post['pu
                             }
                             ?>
                         <div class="g-item">
-                            <img src="<?php echo htmlspecialchars($imageUrl); ?>" alt="<?php echo htmlspecialchars($post['title']); ?> — gallery">
+                            <img src="<?php echo htmlspecialchars($imageUrl); ?>"
+                                 alt="<?php echo htmlspecialchars($post['title']); ?> — gallery image <?php echo $index + 1; ?>">
                         </div>
                         <?php endforeach; ?>
+                    </div>
+                    <?php endif; ?>
+
+                    <?php if (!empty($faqItems)): ?>
+                    <div class="blog-faq-section">
+                        <div class="blog-faq-heading">
+                            <div class="blog-faq-heading-icon" aria-hidden="true">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" stroke="#ffffff" fill="none"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" stroke="#ffffff" fill="none"/><line x1="12" y1="17" x2="12.01" y2="17" stroke="#ffffff"/></svg>
+                            </div>
+                            <h2 class="blog-faq-title">Frequently Asked Questions</h2>
+                        </div>
+                        <div class="blog-faq-list">
+                            <?php foreach ($faqItems as $i => $faq): ?>
+                            <div class="blog-faq-item<?php echo $i === 0 ? ' faq-open' : ''; ?>">
+                                <button class="blog-faq-question" type="button"
+                                        aria-expanded="<?php echo $i === 0 ? 'true' : 'false'; ?>"
+                                        aria-controls="faq-answer-<?php echo $i; ?>"
+                                        onclick="toggleFaq(this)">
+                                    <span><?php echo htmlspecialchars($faq['question']); ?></span>
+                                    <span class="faq-toggle-btn" aria-hidden="true">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#1563df" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="2,4.5 7,9.5 12,4.5"/>
+                                        </svg>
+                                    </span>
+                                </button>
+                                <div class="blog-faq-answer" id="faq-answer-<?php echo $i; ?>"
+                                     <?php echo $i === 0 ? '' : 'hidden'; ?>>
+                                    <div class="faq-answer-inner">
+                                        <?php echo nl2br(htmlspecialchars($faq['answer'])); ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
                     <?php endif; ?>
 
@@ -120,7 +188,7 @@ $published = !empty($post['publishedDate']) ? date('F j, Y', strtotime($post['pu
                             }
                             ?>
                         <li>
-                            <a href="<?php echo base_url('blog/post/' . rawurlencode((string) $rid)); ?>"><?php echo htmlspecialchars($rtitle); ?></a>
+                            <a href="<?php echo base_url('blog/' . rawurlencode((string) $rid)); ?>"><?php echo htmlspecialchars($rtitle); ?></a>
                             <?php if ($rdate !== ''): ?><div class="sub"><?php echo htmlspecialchars($rdate); ?></div><?php endif; ?>
                         </li>
                         <?php endforeach; ?>
@@ -131,3 +199,30 @@ $published = !empty($post['publishedDate']) ? date('F j, Y', strtotime($post['pu
         </div>
     </div>
 </section>
+
+<script>
+function toggleFaq(btn) {
+    const expanded = btn.getAttribute('aria-expanded') === 'true';
+    const answerId = btn.getAttribute('aria-controls');
+    const answer = document.getElementById(answerId);
+    const item = btn.closest('.blog-faq-item');
+    const toggleSvg = btn.querySelector('.faq-toggle-btn svg');
+
+    btn.setAttribute('aria-expanded', String(!expanded));
+    if (expanded) {
+        answer.setAttribute('hidden', '');
+        item.classList.remove('faq-open');
+        if (toggleSvg) toggleSvg.setAttribute('stroke', '#1563df');
+    } else {
+        answer.removeAttribute('hidden');
+        item.classList.add('faq-open');
+        if (toggleSvg) toggleSvg.setAttribute('stroke', '#ffffff');
+    }
+}
+// Set initial state for first open item
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.blog-faq-item.faq-open .faq-toggle-btn svg').forEach(function(svg) {
+        svg.setAttribute('stroke', '#ffffff');
+    });
+});
+</script>

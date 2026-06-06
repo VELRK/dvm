@@ -75,7 +75,9 @@ public function slug($slug = '')
         show_404();
     }
 
-    $data['title'] = isset($post['meta_title']) ? $post['meta_title'] : $post['title'];
+    $data['title'] = !empty($post['meta_title']) ? $post['meta_title'] : $post['title'];
+    $data['meta_description'] = !empty($post['meta_description']) ? $post['meta_description'] : (isset($post['shortDescription']) ? strip_tags($post['shortDescription']) : '');
+    $data['meta_keywords'] = !empty($post['meta_keywords']) ? $post['meta_keywords'] : '';
     $data['page']  = 'blog';
     $data['post']  = $post;
 
@@ -138,7 +140,9 @@ public function slug($slug = '')
             show_404();
         }
 
-        $data['title'] = isset($post['meta_title']) ? $post['meta_title'] : $post['title'];
+        $data['title'] = !empty($post['meta_title']) ? $post['meta_title'] : $post['title'];
+        $data['meta_description'] = !empty($post['meta_description']) ? $post['meta_description'] : (isset($post['shortDescription']) ? strip_tags($post['shortDescription']) : '');
+        $data['meta_keywords'] = !empty($post['meta_keywords']) ? $post['meta_keywords'] : '';
         $data['page'] = 'blog';
         $data['post'] = $post;
         

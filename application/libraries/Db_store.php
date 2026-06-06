@@ -182,6 +182,21 @@ class Db_store {
         if ($this->CI->db->table_exists('blogs') && !$this->CI->db->field_exists('slug', 'blogs')) {
             $this->CI->db->query("ALTER TABLE blogs ADD COLUMN slug VARCHAR(255) NULL");
         }
+        if ($this->CI->db->table_exists('blogs') && !$this->CI->db->field_exists('meta_title', 'blogs')) {
+            $this->CI->db->query("ALTER TABLE blogs ADD COLUMN meta_title VARCHAR(255) NULL");
+        }
+        if ($this->CI->db->table_exists('blogs') && !$this->CI->db->field_exists('meta_description', 'blogs')) {
+            $this->CI->db->query("ALTER TABLE blogs ADD COLUMN meta_description TEXT NULL");
+        }
+        if ($this->CI->db->table_exists('blogs') && !$this->CI->db->field_exists('meta_keywords', 'blogs')) {
+            $this->CI->db->query("ALTER TABLE blogs ADD COLUMN meta_keywords TEXT NULL");
+        }
+        if ($this->CI->db->table_exists('blogs') && !$this->CI->db->field_exists('cover_image_alt', 'blogs')) {
+            $this->CI->db->query("ALTER TABLE blogs ADD COLUMN cover_image_alt VARCHAR(255) NULL");
+        }
+        if ($this->CI->db->table_exists('blogs') && !$this->CI->db->field_exists('faq_data', 'blogs')) {
+            $this->CI->db->query("ALTER TABLE blogs ADD COLUMN faq_data LONGTEXT NULL");
+        }
         if ($this->CI->db->table_exists('enquiries') && !$this->CI->db->field_exists('city', 'enquiries')) {
             $this->CI->db->query("ALTER TABLE enquiries ADD COLUMN city VARCHAR(120) NULL");
         }
@@ -1491,6 +1506,9 @@ class Db_store {
             'publishedDate' => $this->property_value($row, array('date', 'publisheddate', 'publishedDate'), isset($row['created_at']) ? $row['created_at'] : date('Y-m-d')),
             'meta_title' => $this->property_value($row, array('meta_title'), ''),
             'meta_description' => $this->property_value($row, array('meta_description'), ''),
+            'meta_keywords' => $this->property_value($row, array('meta_keywords'), ''),
+            'cover_image_alt' => $this->property_value($row, array('cover_image_alt'), ''),
+            'faq_data' => $this->property_value($row, array('faq_data'), '[]'),
             'coverImageUrl' => $cover,
             'gallery' => $gallery,
             'imageUrls' => $gallery, // For backward compatibility
