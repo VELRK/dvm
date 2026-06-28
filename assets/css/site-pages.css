@@ -214,28 +214,33 @@
 .blog-post-content.entry-content ul,
 .blog-post-content.entry-content ol {
   margin-bottom: 1.1em;
-  padding-left: 1.75em;
+  padding-left: 0.5em;
   text-align: start;
-  list-style-position: outside;
+  /* inside keeps markers visible when .blog-article-card uses overflow-x: clip */
+  list-style-position: inside;
 }
 .blog-post-content.entry-content ul {
-  list-style-type: disc;
+  list-style: inside disc !important;
 }
 .blog-post-content.entry-content ol {
-  list-style-type: decimal;
+  list-style: inside decimal !important;
 }
 .blog-post-content.entry-content ul ul {
-  list-style-type: circle;
+  list-style: inside circle !important;
 }
 .blog-post-content.entry-content ul ul ul {
-  list-style-type: square;
+  list-style: inside square !important;
 }
 .blog-post-content.entry-content li {
   margin-bottom: 0.4em;
   text-align: start;
-  display: list-item;
+  display: list-item !important;
+  padding-left: 0;
   list-style: inherit;
-  list-style-type: inherit;
+}
+.blog-post-content.entry-content li::marker {
+  color: #2c3540;
+  font-weight: 600;
 }
 .blog-post-content.entry-content img,
 .blog-post-content.entry-content video,
