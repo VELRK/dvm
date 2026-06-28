@@ -340,8 +340,8 @@
     </section>
     <!-- /Listing -->
     
-    <!-- Global Loader -->
-    <div id="globalLoader" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.9); z-index: 9999; display: flex; justify-content: center; align-items: center; flex-direction: column;">
+    <!-- Global Loader (hidden by default; shown only during filter navigation) -->
+    <div id="globalLoader" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.9); z-index: 9999; justify-content: center; align-items: center; flex-direction: column;">
         <div style="width: 50px; height: 50px; border: 4px solid #f3f3f3; border-top: 4px solid #007bff; border-radius: 50%; animation: spin 1s linear infinite;"></div>
         <p style="margin-top: 20px; color: #333; font-size: 16px;">Loading properties...</p>
     </div>
@@ -621,8 +621,8 @@
                         var selectedLimit = $(this).val();
                         console.log('Limit changed to:', selectedLimit);
                         
-                        // Show loader for navigation
-                        $('#globalLoader').fadeIn(200);
+                        // Show loader during navigation only
+                        $('#globalLoader').css('display', 'flex').hide().fadeIn(200);
                         
                         var url = new URL(window.location);
                         url.searchParams.set('limit', selectedLimit);
@@ -650,8 +650,8 @@
                         var selectedSort = $(this).val();
                         console.log('Sort changed to:', selectedSort);
                         
-                        // Show loader for navigation
-                        $('#globalLoader').fadeIn(200);
+                        // Show loader during navigation only
+                        $('#globalLoader').css('display', 'flex').hide().fadeIn(200);
                         
                         var url = new URL(window.location);
                         url.searchParams.set('sort', selectedSort);
@@ -703,17 +703,12 @@
                         }
                         url.searchParams.set('page', '1'); // Reset to first page
                         
-                        // Show loader
-                        $('#globalLoader').fadeIn(200);
+                        $('#globalLoader').css('display', 'flex').hide().fadeIn(200);
                         
                         // Redirect to filtered URL
                         window.location.href = url.toString();
                     });
-
-                    // Hide global loader when everything is ready
-                    $('#globalLoader').fadeOut(500);
-                    console.log('Page fully loaded, loader hidden');
-                }, 1000); // Wait 1 second for all libraries to load
+                }, 100);
             });
         } else {
             // Retry after a short delay if jQuery is not yet loaded

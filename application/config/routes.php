@@ -54,6 +54,7 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 // Additional routes
+$route['sitemap.xml'] = 'Sitemap/index';
 $route['home'] = 'Home/redirect_root';
 $route['our-projects'] = 'Listing/index';
 $route['listing'] = 'Listing/redirect_legacy';

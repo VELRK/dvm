@@ -214,16 +214,6 @@ if ($_isHome):
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KTGKKRBH"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
-    <!-- preload -->
-    <div id="preload">
-        <div class="loader">
-            <div class="loader-inner">
-                <div class="loader-inner-2"></div>
-            </div>
-        </div>
-    </div>
-    <!-- /preload -->
-
     <div id="wrapper">
         <div id="pagee" class="clearfix">
             <!-- Main Header -->

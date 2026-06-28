@@ -9,43 +9,16 @@ $showAuthor = ($rawAuthor !== '' && strcasecmp($rawAuthor, 'Admin') !== 0);
 $category = isset($post['category']) ? trim((string) $post['category']) : '';
 $published = !empty($post['publishedDate']) ? date('F j, Y', strtotime($post['publishedDate'])) : '';
 
-// FAQ data
-$faqItems = array();
-if (!empty($post['faq_data'])) {
-    $decoded = json_decode($post['faq_data'], true);
-    if (is_array($decoded)) {
-        foreach ($decoded as $item) {
-            if (!empty($item['question']) && !empty($item['answer'])) {
-                $faqItems[] = $item;
-            }
-        }
-    }
-}
+$faqItems = blog_faq_items($post);
+$blogPostingSchema = blog_posting_schema($post);
+$faqSchema = faq_page_schema($faqItems);
 
 // Cover image alt text
 $coverAlt = !empty($post['cover_image_alt']) ? $post['cover_image_alt'] : $post['title'];
 ?>
 
-<?php if (!empty($faqItems)): ?>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    <?php foreach ($faqItems as $i => $faq): ?>
-    {
-      "@type": "Question",
-      "name": <?php echo json_encode(strip_tags($faq['question'])); ?>,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": <?php echo json_encode(strip_tags($faq['answer'])); ?>
-      }
-    }<?php echo ($i < count($faqItems) - 1) ? ',' : ''; ?>
-    <?php endforeach; ?>
-  ]
-}
-</script>
-<?php endif; ?>
+<?php echo render_json_ld($blogPostingSchema); ?>
+<?php echo render_json_ld($faqSchema); ?>
 
 <section class="flat-title-page flat-title-page--blog blog-single-hero">
     <div class="container">
@@ -99,9 +72,13 @@ $coverAlt = !empty($post['cover_image_alt']) ? $post['cover_image_alt'] : $post[
                     ?>
                     <?php if (!empty($coverImage)): ?>
                     <div class="blog-featured-wrap">
-                        <img class="lazyload" data-src="<?php echo htmlspecialchars($coverImage); ?>"
+                        <img class="lazyload blog-featured-image" data-src="<?php echo htmlspecialchars($coverImage); ?>"
                             src="<?php echo htmlspecialchars($coverImage); ?>"
                             alt="<?php echo htmlspecialchars($coverAlt); ?>"
+                            width="1200"
+                            height="630"
+                            loading="eager"
+                            decoding="async"
                             itemprop="image">
                     </div>
                     <?php endif; ?>
