@@ -180,15 +180,14 @@ $coverAlt = !empty($post['cover_image_alt']) ? $post['cover_image_alt'] : $post[
                     <ul class="blog-sidebar-list">
                         <?php foreach ($recent_posts as $r): ?>
                             <?php
-                            $rid = isset($r['slug']) && $r['slug'] !== '' ? $r['slug'] : (isset($r['id']) ? $r['id'] : '');
                             $rtitle = isset($r['title']) ? $r['title'] : '';
                             $rdate = !empty($r['publishedDate']) ? date('M j, Y', strtotime($r['publishedDate'])) : '';
-                            if ($rid === '' || $rtitle === '') {
+                            if (blog_post_slug($r) === '' || $rtitle === '') {
                                 continue;
                             }
                             ?>
                         <li>
-                            <a href="<?php echo base_url('blog/' . rawurlencode((string) $rid)); ?>"><?php echo htmlspecialchars($rtitle); ?></a>
+                            <a href="<?php echo blog_post_url($r); ?>"><?php echo htmlspecialchars($rtitle); ?></a>
                             <?php if ($rdate !== ''): ?><div class="sub"><?php echo htmlspecialchars($rdate); ?></div><?php endif; ?>
                         </li>
                         <?php endforeach; ?>

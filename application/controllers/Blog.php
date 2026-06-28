@@ -112,31 +112,27 @@ public function slug($slug = '')
 }
 
     /**
-     * Single blog post page
+     * Legacy /blog/post/{id} URLs — redirect to slug-based URL.
      */
     public function post($blogId = null) {
         if (!$blogId) {
             show_404();
         }
 
-        // First try to get by document ID directly (most efficient)
         $blogResult = $this->db_store->getBlogs(1, 0, $blogId);
         $post = null;
-        
+
         if ($blogResult['success'] && isset($blogResult['blog'])) {
             $post = $blogResult['blog'];
         } else {
-            // If not found by ID, try to find by slug or ID in all blogs
             $blogsResult = $this->db_store->getBlogs(1000, 0);
-            
+
             if ($blogsResult['success']) {
                 foreach ($blogsResult['blogs'] as $blog) {
-                    // Check by document ID first
-                    if (isset($blog['id']) && $blog['id'] === $blogId) {
+                    if (isset($blog['id']) && (string) $blog['id'] === (string) $blogId) {
                         $post = $blog;
                         break;
                     }
-                    // Also check by slug for backward compatibility
                     if (isset($blog['slug']) && $blog['slug'] === $blogId) {
                         $post = $blog;
                         break;
@@ -144,34 +140,17 @@ public function slug($slug = '')
                 }
             }
         }
-        
+
         if (!$post) {
             show_404();
         }
 
-        $data['title'] = !empty($post['meta_title']) ? $post['meta_title'] : $post['title'];
-        $data['meta_description'] = !empty($post['meta_description']) ? $post['meta_description'] : (isset($post['shortDescription']) ? strip_tags($post['shortDescription']) : '');
-        $data['meta_keywords'] = !empty($post['meta_keywords']) ? $post['meta_keywords'] : '';
-        $data['page'] = 'blog';
-        $data['post'] = $post;
-        
-        // Get recent posts (excluding current post)
-        $recentBlogsResult = $this->db_store->getBlogs(6, 0);
-        $data['recent_posts'] = array();
-        if ($recentBlogsResult['success']) {
-            foreach ($recentBlogsResult['blogs'] as $blog) {
-                if (isset($post['id']) && isset($blog['id']) && $blog['id'] !== $post['id']) {
-                    $data['recent_posts'][] = $blog;
-                    if (count($data['recent_posts']) >= 5) {
-                        break;
-                    }
-                }
-            }
+        $slug = blog_post_slug($post);
+        if ($slug === '') {
+            show_404();
         }
 
-        $this->load->view('header', $data);
-        $this->load->view('blog/post', $data);
-        $this->load->view('footer', $data);
+        redirect('blog/' . rawurlencode($slug), 'location', 301);
     }
 
 

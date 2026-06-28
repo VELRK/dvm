@@ -4525,10 +4525,9 @@ if (!isset($dvm_lazy_img_placeholder)) {
                             $category = isset($blog_category['category']) ? $blog_category['category'] : '';
                             $title = isset($blog_category['title']) ? $blog_category['title'] : (isset($blog_category['name']) ? $blog_category['name'] : '');
                             $shortDescription = isset($blog_category['shortDescription']) ? $blog_category['shortDescription'] : (isset($blog_category['short_notes']) ? $blog_category['short_notes'] : '');
-                            $slug = isset($blog_category['slug']) && !empty($blog_category['slug']) ? $blog_category['slug'] : (isset($blog_category['id']) ? $blog_category['id'] : '');
                         ?>
                         <div class="swiper-slide">
-                                <a href="<?php echo base_url('blog/post/' . $slug); ?>" class="flat-blog-item hover-img">
+                                <a href="<?php echo blog_post_url($blog_category); ?>" class="flat-blog-item hover-img">
                                     <div class="img-style">
                                         <img style="width:410px; height:310px; object-fit:cover;" class="lazyload" data-src="<?php echo htmlspecialchars($coverImage); ?>"
                                             src="<?php echo htmlspecialchars($dvm_lazy_img_placeholder); ?>" width="410" height="310" loading="lazy" decoding="async" alt="<?php echo htmlspecialchars($title ?: 'Blog', ENT_QUOTES, 'UTF-8'); ?>">

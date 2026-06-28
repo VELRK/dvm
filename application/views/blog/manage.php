@@ -105,7 +105,7 @@
                                             </td>
                                             <td>
                                                 <div class="action-buttons">
-                                                    <a href="<?php echo base_url('blog/post/' . $post['slug']); ?>" 
+                                                    <a href="<?php echo blog_post_url($post); ?>" 
                                                        class="btn btn-sm btn-info" 
                                                        target="_blank" 
                                                        title="View Post">

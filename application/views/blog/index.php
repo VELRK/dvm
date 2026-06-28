@@ -19,7 +19,7 @@
             <?php if (!empty($posts)): ?>
                 <?php foreach ($posts as $index => $post): ?>
                     <div class="col-lg-4 col-md-6">
-                        <a href="<?php echo base_url('blog/post/' . (isset($post['id']) && !empty($post['id']) ? $post['id'] : (isset($post['slug']) ? $post['slug'] : ''))); ?>" class="flat-blog-item hover-img">
+                        <a href="<?php echo blog_post_url($post); ?>" class="flat-blog-item hover-img">
                             <div class="img-style">
                                 <?php if (!empty($post['coverImageUrl'])): ?>
                                     <img class="lazyload" style="width: 100%; height: 250px; object-fit: cover;" data-src="<?php echo $post['coverImageUrl']; ?>" 
