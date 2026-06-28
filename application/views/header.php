@@ -105,6 +105,9 @@
     <link rel="stylesheet" href="<?php echo base_url('assets/css/jqueryui.min.css'); ?>"> -->
     <link rel="stylesheet" href="<?php echo htmlspecialchars($dvm_styles_href, ENT_QUOTES, 'UTF-8'); ?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/site-pages.min.css'); ?>">
+    <?php if (isset($post) && is_array($post) && !empty($post)): ?>
+    <link rel="stylesheet" href="<?php echo base_url('assets/css/blog-editor-content.css'); ?>?v=2">
+    <?php endif; ?>
     <!-- <link rel="stylesheet" href="<?php echo base_url('assets/css/prism.css'); ?>"> -->
     
     <!-- Preload Banner Images for Better Performance -->
