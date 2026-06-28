@@ -214,33 +214,56 @@
 .blog-post-content.entry-content ul,
 .blog-post-content.entry-content ol {
   margin-bottom: 1.1em;
-  padding-left: 0.5em;
+  padding-left: 0;
   text-align: start;
-  /* inside keeps markers visible when .blog-article-card uses overflow-x: clip */
-  list-style-position: inside;
+  list-style: none !important;
 }
-.blog-post-content.entry-content ul {
-  list-style: inside disc !important;
-}
-.blog-post-content.entry-content ol {
-  list-style: inside decimal !important;
-}
-.blog-post-content.entry-content ul ul {
-  list-style: inside circle !important;
-}
-.blog-post-content.entry-content ul ul ul {
-  list-style: inside square !important;
-}
-.blog-post-content.entry-content li {
+.blog-post-content.entry-content ul > li,
+.blog-post-content.entry-content ol > li {
+  position: relative;
   margin-bottom: 0.4em;
   text-align: start;
-  display: list-item !important;
-  padding-left: 0;
-  list-style: inherit;
+  display: block;
+  padding-left: 1.4em;
+  list-style: none !important;
 }
-.blog-post-content.entry-content li::marker {
-  color: #2c3540;
+.blog-post-content.entry-content ul > li::before {
+  content: "\2022";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #1563df;
+  font-weight: 700;
+  line-height: 1.8;
+}
+.blog-post-content.entry-content ul ul > li::before {
+  content: "\25E6";
+}
+.blog-post-content.entry-content ul ul ul > li::before {
+  content: "\25AA";
+}
+.blog-post-content.entry-content ol {
+  counter-reset: blog-ordered-list;
+}
+.blog-post-content.entry-content ol > li {
+  counter-increment: blog-ordered-list;
+  padding-left: 1.75em;
+}
+.blog-post-content.entry-content ol > li::before {
+  content: counter(blog-ordered-list) ".";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #1563df;
   font-weight: 600;
+  line-height: 1.8;
+}
+.blog-post-content.entry-content li > p {
+  margin-top: 0;
+  margin-bottom: 0.35em;
+}
+.blog-post-content.entry-content li > p:last-child {
+  margin-bottom: 0;
 }
 .blog-post-content.entry-content img,
 .blog-post-content.entry-content video,
