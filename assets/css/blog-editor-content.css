@@ -23,12 +23,17 @@ body.blog-post-content.entry-content > *:first-child {
 }
 .blog-post-content.entry-content p,
 body.blog-post-content.entry-content p {
-  margin-bottom: 1.15em;
+  margin-top: 0 !important;
+  margin-bottom: 1.5em !important;
   text-align: justify;
   text-justify: inter-word;
   text-align-last: start;
   hyphens: auto;
   -webkit-hyphens: auto;
+}
+.blog-post-content.entry-content p:last-child,
+body.blog-post-content.entry-content p:last-child {
+  margin-bottom: 0 !important;
 }
 .blog-post-content.entry-content h1,
 .blog-post-content.entry-content h2,
