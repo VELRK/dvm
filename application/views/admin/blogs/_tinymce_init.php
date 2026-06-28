@@ -16,7 +16,7 @@ tinymce.init({
              'removeformat code fullscreen | help',
     block_formats: 'Paragraph=p; Heading 2=h2; Heading 3=h3; Heading 4=h4; Blockquote=blockquote; Preformatted=pre',
     body_class: 'blog-post-content entry-content',
-    content_css: '<?php echo base_url('assets/css/blog-editor-content.css'); ?>?v=3',
+    content_css: '<?php echo base_url('assets/css/blog-editor-content.css'); ?>?v=4',
     link_default_target: '_blank',
     link_title: true,
     relative_urls: false,

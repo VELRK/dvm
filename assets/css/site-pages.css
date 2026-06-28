@@ -98,7 +98,7 @@
   }
 }
 .blog-article-inner {
-  max-width: min(42rem, 100%);
+  max-width: min(860px, 100%);
   margin-left: auto;
   margin-right: auto;
   width: 100%;
