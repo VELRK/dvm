@@ -3783,7 +3783,7 @@ if (!isset($dvm_lazy_img_placeholder)) {
             <section class="mx-5 bg-primary-new radius-30">
                 <div class="flat-img-with-text">
                     <div class="content-left img-animation wow">
-                        <?php $benefitSectionImg = base_url('assets/images/home/house-18.jpg'); ?>
+                        <?php $benefitSectionImg = base_url('images/banner/img-w-text5.jpg'); ?>
                         <img class="lazyload" data-src="<?php echo htmlspecialchars($benefitSectionImg); ?>"
                             src="<?php echo htmlspecialchars($dvm_lazy_img_placeholder); ?>" width="600" height="450" loading="lazy" decoding="async" alt="Dream Villa Makers benefits section image">
                     </div>
