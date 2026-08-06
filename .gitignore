@@ -31,10 +31,10 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 /tests/tests/
 /tests/results/
 
-# App config (credentials + local settings) — keep locally, do not commit
-application/config/
+# Sensitive config only (keep rest of application/config in git)
 **/config/database.php
 **/config/firebase_service_account.json
+**/config/recaptcha.php
 
 # CI/CD
 .ftp-deploy-sync-state.json
