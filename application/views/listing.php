@@ -75,6 +75,7 @@
                                 <option value="50" <?php echo $limit == 50 ? 'selected' : ''; ?>>Show: 50</option>
                             </select>
                             <select class="nice-select select-filter list-sort">
+                                <option value="order" <?php echo $sort == 'order' ? 'selected' : ''; ?>>Sort by Order</option>
                                 <option value="newest" <?php echo $sort == 'newest' ? 'selected' : ''; ?>>Sort by Newest</option>
                                 <option value="oldest" <?php echo $sort == 'oldest' ? 'selected' : ''; ?>>Sort by Oldest</option>
                                 <option value="price_low" <?php echo $sort == 'price_low' ? 'selected' : ''; ?>>Sort by Price: Low to High</option>

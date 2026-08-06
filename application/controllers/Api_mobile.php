@@ -58,29 +58,36 @@ class Api_mobile extends CI_Controller {
      */
     private function _get_input($key = null)
     {
-        // Check if request is JSON
-        $content_type = $this->input->server('CONTENT_TYPE');
-        if (strpos($content_type, 'application/json') !== false) {
-            $json = file_get_contents('php://input');
-            $data = json_decode($json, true);
-            
+        $content_type = (string) $this->input->server('CONTENT_TYPE');
+        $raw = file_get_contents('php://input');
+        $looks_like_json = is_string($raw) && $raw !== '' && ($raw[0] === '{' || $raw[0] === '[');
+        $is_json = (stripos($content_type, 'application/json') !== false) || $looks_like_json;
+
+        // Prefer JSON body when Content-Type is JSON, or body looks like JSON
+        // (PHP does not populate $_POST for application/json)
+        if ($is_json && $raw !== '' && $raw !== false) {
+            $data = json_decode($raw, true);
+            if (!is_array($data)) {
+                $data = array();
+            }
+
             if ($key === null) {
                 return $data;
             }
-            
+
             return isset($data[$key]) ? $data[$key] : null;
         }
-        
+
         // Fallback to regular POST/GET
         if ($key === null) {
-            return array_merge($this->input->post(), $this->input->get());
+            return array_merge($this->input->post() ?: array(), $this->input->get() ?: array());
         }
-        
+
         $value = $this->input->post($key);
-        if ($value === null) {
+        if ($value === null || $value === false) {
             $value = $this->input->get($key);
         }
-        
+
         return $value;
     }
 
@@ -137,6 +144,7 @@ class Api_mobile extends CI_Controller {
             'type' => isset($property->type) ? $property->type : null,
             'is_featured' => isset($property->is_featured) ? (bool)$property->is_featured : false,
             'is_latest' => isset($property->is_latest) ? (bool)$property->is_latest : false,
+            'order' => isset($property->order) ? (int)$property->order : 0,
             'rating' => isset($property->rating) && $property->rating > 0 ? (float)$property->rating : 5.0,
             'nearby' => $nearby,
             'features' => $features,

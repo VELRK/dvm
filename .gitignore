@@ -31,7 +31,8 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 /tests/tests/
 /tests/results/
 
-# Sensitive config files - never commit credentials
+# App config (credentials + local settings) — keep locally, do not commit
+application/config/
 **/config/database.php
 **/config/firebase_service_account.json
 
@@ -41,5 +42,9 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 
 # Large files that exceed GitHub's 100MB limit
 *.zip
+
+# User-uploaded / local media (keep folder locally, do not commit)
 uploads/
+assets/images/
+
 .htaccess

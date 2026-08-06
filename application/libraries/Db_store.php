@@ -480,7 +480,8 @@ class Db_store {
             'nearby' => $nearby,
             'features' => $features,
             'index' => $this->property_value($row, array('index'), 999),
-            'orderValue' => $this->property_value($row, array('ordervalue', 'orderValue'), 999),
+            'order' => (int)$this->property_value($row, array('order'), 0),
+            'orderValue' => $this->property_value($row, array('order', 'ordervalue', 'orderValue'), 999),
             'isFeatured' => $isFeatured,
             'is_featured' => $isFeatured,
             'isfeatured' => $isFeatured,
@@ -676,6 +677,8 @@ class Db_store {
             $bPrice = isset($b['propertyPriceRange']) ? (float)$b['propertyPriceRange'] : 0;
             $aDate = isset($a['createdAt']) ? strtotime($a['createdAt']) : 0;
             $bDate = isset($b['createdAt']) ? strtotime($b['createdAt']) : 0;
+            $aOrder = isset($a['order']) ? (int)$a['order'] : (isset($a['id']) ? (int)$a['id'] : 0);
+            $bOrder = isset($b['order']) ? (int)$b['order'] : (isset($b['id']) ? (int)$b['id'] : 0);
 
             switch ($sort) {
                 case 'oldest':
@@ -685,15 +688,17 @@ class Db_store {
                 case 'price_high':
                     return $bPrice <=> $aPrice;
                 case 'newest':
-                default:
                     return $bDate <=> $aDate;
+                case 'order':
+                default:
+                    return $aOrder <=> $bOrder;
             }
         });
 
         return $properties;
     }
 
-    public function getProperties($limit = 30, $offset = 0, $sort = 'newest', $price_min = null, $price_max = null, $city = null, $location = null, $category = null) {
+    public function getProperties($limit = 30, $offset = 0, $sort = 'order', $price_min = null, $price_max = null, $city = null, $location = null, $category = null) {
         $db = $this->CI->db;
         // New schema: price, city (text), location (text), category (text)
         $priceCol = $this->first_field('properties', array('price', 'propertyPriceRange', 'propertypricerange'), 'price');
@@ -743,6 +748,8 @@ class Db_store {
             $db->where('p.' . $categoryCol, $category);
         }
 
+        $orderCol = $this->first_field('properties', array('order'), null);
+
         switch ($sort) {
             case 'oldest':
                 $db->order_by('p.' . $createdCol, 'ASC');
@@ -754,8 +761,14 @@ class Db_store {
                 $db->order_by('p.' . $priceCol, 'DESC');
                 break;
             case 'newest':
-            default:
                 $db->order_by('p.' . $createdCol, 'DESC');
+                break;
+            case 'order':
+            default:
+                if ($orderCol !== null) {
+                    $db->order_by('p.`' . $orderCol . '`', 'ASC');
+                }
+                $db->order_by('p.id', 'ASC');
                 break;
         }
 

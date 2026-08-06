@@ -35,7 +35,7 @@ class Listing extends CI_Controller {
         // Get pagination parameters
         $page      = $this->input->get('page') ? (int)$this->input->get('page') : 1;
         $limit     = $this->input->get('limit') ? (int)$this->input->get('limit') : 30;
-        $sort      = $this->input->get('sort') ? $this->input->get('sort') : 'newest'; // newest, oldest, price_low, price_high
+        $sort      = $this->input->get('sort') ? $this->input->get('sort') : 'order'; // order, newest, oldest, price_low, price_high
         $price_min = $this->input->get('price_min') ? (int)$this->input->get('price_min') : null;
         $price_max = $this->input->get('price_max') ? (int)$this->input->get('price_max') : null;
         

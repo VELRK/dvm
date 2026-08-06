@@ -7,6 +7,20 @@ class Property_model extends CI_Model {
     {
         parent::__construct();
         $this->load->database();
+        $this->ensure_order_column();
+    }
+
+    /**
+     * Ensure properties.`order` column exists
+     */
+    public function ensure_order_column()
+    {
+        if (!$this->db->table_exists('properties')) {
+            return;
+        }
+        if (!$this->db->field_exists('order', 'properties')) {
+            $this->db->query("ALTER TABLE `properties` ADD COLUMN `order` INT(11) NOT NULL DEFAULT 0 AFTER `status`");
+        }
     }
 
     public function get_all($status = null)
@@ -14,6 +28,8 @@ class Property_model extends CI_Model {
         if ($status) {
             $this->db->where('status', $status);
         }
+        $this->db->order_by('`order`', 'ASC');
+        $this->db->order_by('id', 'ASC');
         return $this->db->get('properties')->result();
     }
 
@@ -24,6 +40,11 @@ class Property_model extends CI_Model {
 
     public function create($data)
     {
+        if (!isset($data['order']) && $this->db->field_exists('order', 'properties')) {
+            $this->db->select_max('order');
+            $max = $this->db->get('properties')->row();
+            $data['order'] = ($max && $max->order !== null) ? ((int)$max->order + 1) : 1;
+        }
         $this->db->insert('properties', $data);
         return $this->db->insert_id();
     }
@@ -32,6 +53,30 @@ class Property_model extends CI_Model {
     {
         $this->db->where('id', $id);
         return $this->db->update('properties', $data);
+    }
+
+    /**
+     * Bulk update order values: [id => order, ...]
+     */
+    public function update_orders($orders)
+    {
+        if (!is_array($orders) || empty($orders)) {
+            return false;
+        }
+        $this->ensure_order_column();
+        $ok = true;
+        foreach ($orders as $id => $order) {
+            $id = (int)$id;
+            $order = (int)$order;
+            if ($id <= 0) {
+                continue;
+            }
+            $this->db->where('id', $id);
+            if (!$this->db->update('properties', array('order' => $order))) {
+                $ok = false;
+            }
+        }
+        return $ok;
     }
 
     public function delete($id)
@@ -90,7 +135,7 @@ class Property_model extends CI_Model {
             $this->db->where('status', 'active');
         }
         
-        // Sorting
+        // Sorting — default: custom admin order
         if (isset($filters['sort_by'])) {
             switch($filters['sort_by']) {
                 case 'newest':
@@ -101,6 +146,7 @@ class Property_model extends CI_Model {
                     break;
                 case 'featured':
                     $this->db->order_by('is_featured', 'DESC');
+                    $this->db->order_by('`order`', 'ASC');
                     $this->db->order_by('created_at', 'DESC');
                     break;
                 case 'price_low':
@@ -111,13 +157,17 @@ class Property_model extends CI_Model {
                     break;
                 case 'latest':
                     $this->db->order_by('is_latest', 'DESC');
+                    $this->db->order_by('`order`', 'ASC');
                     $this->db->order_by('created_at', 'DESC');
                     break;
+                case 'order':
                 default:
-                    $this->db->order_by('created_at', 'DESC');
+                    $this->db->order_by('`order`', 'ASC');
+                    $this->db->order_by('id', 'ASC');
             }
         } else {
-            $this->db->order_by('created_at', 'DESC');
+            $this->db->order_by('`order`', 'ASC');
+            $this->db->order_by('id', 'ASC');
         }
         // Pagination (optional)
         if (isset($filters['limit']) && (int)$filters['limit'] > 0) {
@@ -141,6 +191,7 @@ class Property_model extends CI_Model {
     {
         $this->db->where('status', 'active');   
         $this->db->where('is_latest', 1);   
+        $this->db->order_by('`order`', 'ASC');
         $this->db->order_by('created_at', 'DESC');
         $this->db->limit($limit);
         return $this->db->get('properties')->result();
@@ -149,6 +200,7 @@ class Property_model extends CI_Model {
     {
         $this->db->where('status', 'active');
         $this->db->where('is_featured', 1);
+        $this->db->order_by('`order`', 'ASC');
         $this->db->order_by('created_at', 'DESC');
         $this->db->limit($limit);
         return $this->db->get('properties')->result();
@@ -166,4 +218,3 @@ class Property_model extends CI_Model {
         return $this->db->get()->result();
     }
 }
-

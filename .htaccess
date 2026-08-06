@@ -1,9 +1,18 @@
 RewriteEngine On
 
-# Production SEO: single canonical host — 301 from apex to www (does not match localhost)
-# https://dreamvillamakers.com/* → https://www.dreamvillamakers.com/*
+# API: force HTTPS on the same host (308 keeps POST method + JSON body).
+# Do NOT bounce /api/ between apex and www — 301 drops POST body (breaks mobile app).
+RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP_HOST} ^(www\.)?dreamvillamakers\.com$ [NC]
+RewriteCond %{THE_REQUEST} \s/+?(index\.php/)?api/ [NC]
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=308,L]
+
+# Production SEO: canonical www for non-API pages (308 preserves method/body if any POST).
+# Skip /api/ so https://dreamvillamakers.com/api/... works without redirect (app-compatible).
 RewriteCond %{HTTP_HOST} ^dreamvillamakers\.com$ [NC]
-RewriteRule ^ https://www.dreamvillamakers.com%{REQUEST_URI} [R=301,L]
+RewriteCond %{THE_REQUEST} !\s/+?(index\.php/)?api/ [NC]
+RewriteRule ^ https://www.dreamvillamakers.com%{REQUEST_URI} [R=308,L]
+
 
 # Must match the URL path where this app lives (e.g. http://localhost:8080/dvm/)
 

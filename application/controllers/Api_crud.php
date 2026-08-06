@@ -298,7 +298,7 @@ class Api_crud extends CI_Controller {
 
             $filters = array(
                 'location' => $location->name,
-                'sort_by'  => $this->input->get('sort_by') ?: 'newest',
+                'sort_by'  => $this->input->get('sort_by') ?: 'order',
             );
             $limit = $this->input->get('limit') ? (int)$this->input->get('limit') : 0;
             if ($limit) {
@@ -351,7 +351,7 @@ class Api_crud extends CI_Controller {
 
             $filters = array(
                 'category' => $category->category_name,
-                'sort_by'  => $this->input->get('sort_by') ?: 'newest',
+                'sort_by'  => $this->input->get('sort_by') ?: 'order',
             );
             $limit = $this->input->get('limit') ? (int)$this->input->get('limit') : 0;
             if ($limit) {
@@ -404,7 +404,7 @@ class Api_crud extends CI_Controller {
 
             $filters = array(
                 'city'    => $city->name,
-                'sort_by' => $this->input->get('sort_by') ?: 'newest',
+                'sort_by' => $this->input->get('sort_by') ?: 'order',
             );
             $limit = $this->input->get('limit') ? (int)$this->input->get('limit') : 0;
             if ($limit) {

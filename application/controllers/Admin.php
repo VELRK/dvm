@@ -88,10 +88,42 @@ class Admin extends CI_Controller {
     public function properties()
     {
         $this->check_login();
+        $this->Property_model->ensure_order_column();
         $data['properties'] = $this->Property_model->get_all();
         $this->load->view('admin/header');
         $this->load->view('admin/properties/list', $data);
         $this->load->view('admin/footer');
+    }
+
+    /**
+     * Update property display order from admin list text boxes
+     * POST orders = JSON { id: order, ... }
+     */
+    public function property_update_order()
+    {
+        $this->check_login();
+
+        if (ob_get_level()) {
+            ob_end_clean();
+        }
+        header('Content-Type: application/json');
+
+        $ordersJson = $this->input->post('orders');
+        if (empty($ordersJson)) {
+            exit(json_encode(array('success' => false, 'message' => 'No order data received')));
+        }
+
+        $orders = json_decode($ordersJson, true);
+        if (!is_array($orders) || empty($orders)) {
+            exit(json_encode(array('success' => false, 'message' => 'Invalid order data')));
+        }
+
+        if ($this->Property_model->update_orders($orders)) {
+            exit(json_encode(array('success' => true, 'message' => 'Order updated successfully')));
+        }
+
+        $err = $this->db->error();
+        exit(json_encode(array('success' => false, 'message' => 'Update failed: ' . (isset($err['message']) ? $err['message'] : 'Unknown error'))));
     }
 
     public function property_create()
